@@ -1,0 +1,68 @@
+## You are an expert in 3D facial modeling and human anatomy. Your task is to analyze an editing instruction and the initial state of a face (provided as a visual reference image and a set of numerical landmark coordinates), then predict the new 2D facial landmarks. You will first output your detailed step-by-step reasoning, and then provide the final numerical prediction.
+
+## [Input Data]
+
+1.  **Editing Instruction**: "{instruction}"
+
+2.  **Initial Facial State Data**:
+    - **Visual Reference Image**: <image>
+        - **Purpose**: This color-coded annotated image serves as a **visual reference only**. Use it to understand the initial facial pose, expression, and the spatial relationship between facial features. The colors and numbers help identify specific landmark points mentioned in the reasoning process.
+        - **Crucial Constraint**: **Do not** attempt to derive coordinates directly from the image pixels. The image is a qualitative guide, not a quantitative map.
+
+    - **Initial Normalized Landmark Coordinates**:
+        - **Purpose**: This JSON data is the **sole source of numerical input** for the initial landmark positions. It represents the precise (x, y) locations of the 68 facial landmarks.
+        - **Coordinate System Definition**: All coordinates are defined on an abstract 2D canvas of **512x512 units**. The origin `(0, 0)` is at the **top-left corner**. All subsequent calculations and the final output must adhere to this coordinate system.
+        ```json
+        {norm_landmarks_json}
+        ```
+
+---
+## [Your Task & Output Structure]
+
+Now, begin your response. Your entire output must follow this exact two-part structure:
+
+**Part 1: Chain-of-Thought Reasoning**
+First, you must explicitly write out your complete thought process. Copy the template below and fill in your detailed analysis for Step 1, Step 2, and Step 3 based on the provided input data.
+
+**Part 2: Raw Predicted Landmarks**
+After presenting your full reasoning, the  Predicted Landmarks must be in  the  JSON format. **The JSON must be enclosed in ```json ... ```**, contain integer coordinates **between 0 and 511 inclusive**. Ensure the output JSON has the same structure as the input ('JAW/BROWS', 'NOSE', 'EYES' and 'MOUTH' groups).
+**Note**: The "JAW/BROWS" group contains 27 points, the "NOSE" group contains 9 points, the "EYES" group contains 12 points, and the "MOUTH" group contains 20 points. In total, there are 68 points, neither more nor less. The group names must be all uppercase.
+
+**Output Format Requirements:**
+Enclose your full chain-of-thought reasoning within <think> and </think> tags. Then, in the <answer> tag, output Predicted Landmarks. No other text is allowed in the <answer> section. 
+
+**Output Example:**
+
+<think> 
+the detailed chain-of-thought reasoning process. 
+</think>
+<answer>
+```json
+{{'JAW/BROWS': [[0, 0], [1, 1], ...], 'NOSE': [[2, 2], [3, 3], ...], 'EYES': [[4, 4], [5, 5], ...], 'MOUTH': [[6, 6], [7, 7], ...]}}
+```
+</answer>
+
+---
+
+## [Chain-of-Thought Reasoning]
+
+Step 1: Initial State Analysis.
+    - Analyze the **Visual Reference Image** to understand the face's starting condition.
+    - **Current Pose**:
+    - **Current Expression**:
+    - Correlate the visual features with the provided **Initial Normalized Landmark Coordinates** to build a mental model of the face.
+
+Step 2: Instruction Decomposition and Kinematic Analysis.
+    - Break down the instruction "{instruction}" into primary anatomical movements.
+    - **Primary Action(s)**:
+    - **Key Facial Parts Affected**:
+    - **Kinematic Chain Reasoning**: Describe how these parts move together as a 2D projection within the **512x512 normalized coordinate space**.
+
+Step 3: Quantitative Transformation Estimation (in the 512x512 space).
+    - Translate the qualitative reasoning into quantitative coordinate shifts for landmark groups. All estimations refer to the **512x512 normalized canvas**.
+    - **Example Transformation for 'Turn right and smile'**:
+        - `jawline (points 0-16)`: "Left points (0-8) will shift right (positive X) by about 25-40 units. Right points (9-16) will also shift right, but by a smaller amount, maybe 10-20 units."
+        - `nose (points 27-35)`: "All points will shift right (positive X). Point 33 (tip) will move the most, maybe 30 units. Point 27 (root) will move the least, maybe 8 units."
+        - `mouth (points 48-67)`: "Points 48 and 54 will move up (negative Y) by ~15 units and horizontally apart by ~10 units each. The center of the upper lip (point 51) will rise (negative Y) by ~8 units."
+    - **Identity Constraint**: "All transformations must be cohesive. The relative distances within rigid groups (like the nose bridge) should be largely preserved, while deformable areas (like the mouth) change shape according to the expression. The overall transformation should look like the same person."
+

@@ -1,0 +1,15 @@
+liger_kernel
+einops
+transformers==4.57.0
+qwen_vl_utils
+safetensors
+pillow
+gradio
+packaging
+ninja
+json_repair
+opencv-python
+face-alignment
+psutil
+accelerate
+diffusers
