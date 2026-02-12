@@ -9,6 +9,7 @@ Zhenghao Zhang∗, Ziying Zhang∗, Junchao Liao∗, Xiangyu Meng, Qiang Hu, Siy
 <br>
 
 <a href='https://arxiv.org/abs/2509.25731'><img src='https://img.shields.io/badge/ArXiv-2509.25731-red'></a>
+<a href='https://ali-videoai.github.io/lato_page/'><img src='https://img.shields.io/badge/Project-Page-Blue'></a>
 <a href="https://github.com/alibaba/landmark-tokenized-dit"><img src='https://img.shields.io/badge/Github-Link-orange'></a>
 <a href='https://modelscope.cn/models/Alibaba_Research_Intelligence_Computing/LaTo'><img src='https://img.shields.io/badge/🤖_ModelScope-weights-%23654dfc'></a>
 <a href='https://huggingface.co/Alibaba-Research-Intelligence-Computing/LaTo'><img src='https://img.shields.io/badge/🤗_HuggingFace-weights-%23ff9e0e'></a>
@@ -80,3 +81,4 @@ Special thanks to the contributors of these libraries for their hard work and de
 }
 
 ```
+
